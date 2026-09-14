@@ -34,9 +34,12 @@ const apiLimiter = rateLimit({
 app.use(
   cors({
     origin: (origin, callback) => {
-      const clientUrl = process.env.CLIENT_URL;
+      const clientUrls = [
+        process.env.CLIENT_URL,
+        'https://jobconnect-frontend-jwbj.onrender.com',
+      ].filter(Boolean);
       if (!origin) return callback(null, true); // allow server-to-server or same-origin
-      if (clientUrl && origin === clientUrl) return callback(null, true);
+      if (clientUrls.includes(origin)) return callback(null, true);
       // allow any localhost origin (dev convenience)
       if (/^https?:\/\/localhost(:\d+)?$/.test(origin) || /^https?:\/\/127\.0\.0\.1(:\d+)?$/.test(origin)) {
         return callback(null, true);
