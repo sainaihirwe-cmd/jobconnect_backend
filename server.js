@@ -36,16 +36,30 @@ app.use(
     origin: (origin, callback) => {
       const clientUrls = [
         process.env.CLIENT_URL,
-        'https://jobconnect-frontend-jwbj.onrender.com',
+        "https://jobconnect-frontend-jwbj.onrender.com",
       ].filter(Boolean);
-      if (!origin) return callback(null, true); // allow server-to-server or same-origin
-      if (clientUrls.includes(origin)) return callback(null, true);
-      // allow any localhost origin (dev convenience)
-      if (/^https?:\/\/localhost(:\d+)?$/.test(origin) || /^https?:\/\/127\.0\.0\.1(:\d+)?$/.test(origin)) {
+
+      // Allow requests without an Origin
+      if (!origin) {
         return callback(null, true);
       }
-      return callback(new Error('Not allowed by CORS'));
+
+      // Allow your frontend
+      if (clientUrls.includes(origin)) {
+        return callback(null, true);
+      }
+
+      // Allow localhost during development
+      if (
+        /^https?:\/\/localhost(:\d+)?$/.test(origin) ||
+        /^https?:\/\/127\.0\.0\.1(:\d+)?$/.test(origin)
+      ) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
     },
+
     credentials: true,
   })
 );
