@@ -16,8 +16,17 @@ const seedData = async ({ reset = false } = {}) => {
   try {
     const userCount = await User.countDocuments();
     if (userCount > 0 && !reset) {
-      console.log('[SEED] Existing users found. Skipping seed. Set RESET_DATABASE=true to reset demo data.');
-      return { seeded: false };
+      const adminPassword = await bcrypt.hash('Admin123!', 10);
+      const adminRepair = await User.updateOne(
+        { email: 'admin@jobconnectrwanda.rw' },
+        { $set: { password: adminPassword, role: 'admin', isActive: true } }
+      );
+      console.log(
+        adminRepair.matchedCount
+          ? '[SEED] Existing users found. Admin password repaired; other data was preserved.'
+          : '[SEED] Existing users found. No demo admin exists; other data was preserved.'
+      );
+      return { seeded: false, adminRepaired: adminRepair.matchedCount > 0 };
     }
 
     if (userCount > 0 && reset) {
@@ -49,7 +58,14 @@ const seedData = async ({ reset = false } = {}) => {
     { fullName: 'BuildRwanda Construction', email: 'careers@buildrwanda.rw', password: 'Employer123!', role: 'employer', phone: '+250788333002', location: 'Kigali' },
   ];
 
-  const createdUsers = await User.insertMany(demoUsers);
+  const hashedUsers = await Promise.all(
+    demoUsers.map(async (user) => ({
+      ...user,
+      password: await hashPassword(user.password),
+    }))
+  );
+
+  const createdUsers = await User.insertMany(hashedUsers);
   const employers = createdUsers.filter((u) => u.role === 'employer');
   const jobSeekers = createdUsers.filter((u) => u.role === 'jobseeker');
 
