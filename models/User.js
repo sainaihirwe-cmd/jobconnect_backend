@@ -22,6 +22,12 @@ const userSchema = new mongoose.Schema(
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
+
+  // Avoid hashing a password that was already hashed (for example in seed scripts or migrations).
+  if (typeof this.password === 'string' && this.password.startsWith('$2')) {
+    return next();
+  }
+
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
   next();

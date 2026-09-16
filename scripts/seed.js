@@ -40,13 +40,13 @@ const seedData = async ({ reset = false } = {}) => {
   };
 
   const demoUsers = [
-    { fullName: 'Admin User', email: 'admin@jobconnectrwanda.rw', password: await hashPassword('Admin123!'), role: 'admin', phone: '+250788000001', location: 'Kigali' },
-    { fullName: 'Aline Mukansanga', email: 'aline.mukansanga@gmail.com', password: await hashPassword('Password123!'), role: 'jobseeker', phone: '+250788111001', location: 'Kigali' },
-    { fullName: 'Jean Bosco Ndayisenga', email: 'jean.bosco@gmail.com', password: await hashPassword('Password123!'), role: 'jobseeker', phone: '+250788111002', location: 'Gasabo' },
-    { fullName: 'Miriam Uwase', email: 'miriam.uwase@gmail.com', password: await hashPassword('Password123!'), role: 'jobseeker', phone: '+250788111003', location: 'Kicukiro' },
-    { fullName: 'Eric Kamali', email: 'eric.kamali@gmail.com', password: await hashPassword('Password123!'), role: 'jobseeker', phone: '+250788111004', location: 'Nyarugenge' },
-    { fullName: 'Kigali Tech Hub', email: 'hi@kigalitechhub.rw', password: await hashPassword('Employer123!'), role: 'employer', phone: '+250788333001', location: 'Kigali' },
-    { fullName: 'BuildRwanda Construction', email: 'careers@buildrwanda.rw', password: await hashPassword('Employer123!'), role: 'employer', phone: '+250788333002', location: 'Kigali' },
+    { fullName: 'Admin User', email: 'admin@jobconnectrwanda.rw', password: 'Admin123!', role: 'admin', phone: '+250788000001', location: 'Kigali' },
+    { fullName: 'Aline Mukansanga', email: 'aline.mukansanga@gmail.com', password: 'Password123!', role: 'jobseeker', phone: '+250788111001', location: 'Kigali' },
+    { fullName: 'Jean Bosco Ndayisenga', email: 'jean.bosco@gmail.com', password: 'Password123!', role: 'jobseeker', phone: '+250788111002', location: 'Gasabo' },
+    { fullName: 'Miriam Uwase', email: 'miriam.uwase@gmail.com', password: 'Password123!', role: 'jobseeker', phone: '+250788111003', location: 'Kicukiro' },
+    { fullName: 'Eric Kamali', email: 'eric.kamali@gmail.com', password: 'Password123!', role: 'jobseeker', phone: '+250788111004', location: 'Nyarugenge' },
+    { fullName: 'Kigali Tech Hub', email: 'hi@kigalitechhub.rw', password: 'Employer123!', role: 'employer', phone: '+250788333001', location: 'Kigali' },
+    { fullName: 'BuildRwanda Construction', email: 'careers@buildrwanda.rw', password: 'Employer123!', role: 'employer', phone: '+250788333002', location: 'Kigali' },
   ];
 
   const createdUsers = await User.insertMany(demoUsers);
